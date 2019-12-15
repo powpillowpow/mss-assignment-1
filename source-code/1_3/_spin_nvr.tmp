@@ -1,0 +1,9 @@
+never mutual_exclusion {    /* !([] ((ghost<=1))) */
+T0_init:
+	do
+	:: atomic { (! (((ghost<=1)))) -> assert(!(! (((ghost<=1))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}
