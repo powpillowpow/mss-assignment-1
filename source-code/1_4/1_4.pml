@@ -30,7 +30,7 @@ active [N] proctype Phil() {
     do
     :: 
     if
-    ::fork[_pid]!=-1 && (fork[0] == fork[N-1] || fork[_pid] == fork[_pid]) -> printf("philosopher %d eats...\n", _pid);
+    ::fork[_pid]!=-1 && (fork[0] == fork[N-1] || (_pid < N-1 && fork[_pid] == fork[_pid+1])) -> printf("philosopher %d eats...\n", _pid);
     ::else -> printf("philosopher %d thinks...\n", _pid);
     fi
 
@@ -43,7 +43,6 @@ active [N] proctype Phil() {
     {
         philosopherGetsRightFork(_pid);
     }
-
     od
 }
 
