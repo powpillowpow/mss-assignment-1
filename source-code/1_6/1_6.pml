@@ -1,5 +1,7 @@
 #define N 3
 int fork[N] = -1;
+byte ghost5, ghost6;
+bool as6, as7;
 
 inline philosopherGetsLeftFork(philosopherNumber)
 {
@@ -36,30 +38,36 @@ active [N] proctype Phil() {
     atomic
     {
         philosopherGetsLeftFork(_pid);
-    }
-    
-    atomic
-    {
         philosopherGetsRightFork(_pid);
     }
 
     if
     ::_pid < N-1 ->
         (fork[_pid]!=-1 && fork[_pid+1]!=-1 && fork[_pid] == _pid && fork[_pid+1] == _pid)
-        printf("philosopher %d eats with fork%d and fork%d...\n", _pid, _pid, _pid+1);
         atomic
         {
+            as6 = (fork[_pid]!=-1 && fork[_pid+1]!=-1 && fork[_pid] == _pid && fork[_pid+1] == _pid);
+            assert(as6)
+            printf("philosopher %d eats with fork%d and fork%d...\n", _pid, _pid, _pid+1);
+            ghost5++;
+            assert(ghost5<=1);
             fork[_pid] = -1;
             fork[_pid+1] = -1;
+            ghost5--;
         }
         
     :: else ->
         (fork[N-1]!=-1 && fork[0]!=-1 && fork[0] == _pid && fork[N-1] == _pid)
-        printf("philosopher %d eats with fork%d and fork%d...\n", _pid, 0, N-1);
         atomic
         {
+            as7 = (fork[N-1]!=-1 && fork[0]!=-1 && fork[0] == _pid && fork[N-1] == _pid);
+            assert(as7)
+            printf("philosopher %d eats with fork%d and fork%d...\n", _pid, 0, N-1);
+            ghost6++;
+            assert(ghost6<=1);
             fork[0] = -1;
             fork[N-1] = -1;
+            ghost6--;
         }
     fi
     od
