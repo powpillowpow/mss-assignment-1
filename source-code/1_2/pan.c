@@ -477,18 +477,16 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln0 [] = {
-	  0,   7,   8,  11,  11,  12,  12,  10, 
-	 15,  10,  15,  18,  19,  20,  21,  24, 
-	 25,   6,  27,   6,  27,   0, };
+	  0,   8,   9,  12,  12,  13,  13,  11, 
+	 16,  16,  19,  22,  23,  24,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_2.pml", 1, 20 },
-	{ "-", 21, 22 }
+	{ "1_2.pml", 1, 13 },
+	{ "-", 14, 15 }
 };
 uchar reached0 [] = {
-	  0,   1,   0,   1,   1,   1,   1,   0, 
-	  1,   1,   0,   0,   0,   0,   1,   0, 
-	  1,   0,   1,   1,   0,   0, };
+	  0,   0,   0,   1,   1,   1,   0,   0, 
+	  1,   0,   1,   0,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached1[3];  /* np_ */
 uchar *loopstate1;  /* np_ */
@@ -791,11 +789,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* P */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 17;
+		((P0 *)pptr(h))->_p = 1;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[17]=1;
+		reached0[1]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -935,6 +933,7 @@ run(void)
 	if ((Maxbody % WS) != 0)
 		Maxbody += WS - (Maxbody % WS);
 
+	stopstate[0][6] = 1;
 	retrans(0, _nstates0, _start0, src_ln0, reached0, loopstate0);
 	if (state_tables)
 	{ if (dodot) exit(0);
@@ -12288,7 +12287,7 @@ iniglobals(int calling_pid)
 			now.flag[l_in] = 0;
 		}
 	}
-		now.ghost = 0;
+		ghost = 0;
 #ifdef VAR_RANGES
 		logval("turn", now.turn);
 	{	int l_in;
@@ -12297,7 +12296,6 @@ iniglobals(int calling_pid)
 			logval("flag[l_in]", now.flag[l_in]);
 		}
 	}
-		logval("ghost", now.ghost);
 #endif
 }
 
@@ -14002,7 +14000,6 @@ c_globals(void)
 			printf("	bit    flag[%d]:	%d\n", l_in, now.flag[l_in]);
 		}
 	}
-	printf("	byte   ghost:	%d\n", now.ghost);
 }
 void
 c_locals(int pid, int tp)
@@ -14023,7 +14020,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[20];
+Trans *t_id_lkup[13];
 
 
 #ifdef BFS_PAR
