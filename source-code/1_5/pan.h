@@ -132,17 +132,17 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates0	65	/* Phil */
+#define _nstates0	26	/* Phil */
 #define minseq0	0
-#define maxseq0	63
-#define _endstate0	64
+#define maxseq0	24
+#define _endstate0	25
 
 extern short src_ln0[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	17
-#define _T2	18
+#define _T5	9
+#define _T2	10
 #define WS		8 /* word size in bytes */
 #define SYNC	0
 #define ASYNC	0
@@ -161,22 +161,22 @@ extern S_F_MAP src_file0[];
 typedef struct P0 { /* Phil */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 2; /* proctype */
-	unsigned _p   : 8; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
 } P0;
-#define Air0	(sizeof(P0) - 3)
+#define Air0	(sizeof(P0) - 2)
 
 typedef struct P1 { /* np_ */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 2; /* proctype */
-	unsigned _p   : 8; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
 } P1;
-#define Air1	(sizeof(P1) - 3)
+#define Air1	(sizeof(P1) - 2)
 
 #define Pclaim	P0
 #ifndef NCLAIMS
@@ -368,13 +368,8 @@ typedef struct State {
 		unsigned short _event;
 	#endif
 #endif
-	unsigned as6 : 1;
-	unsigned as7 : 1;
 	uchar ghost;
-	uchar ghost3;
-	uchar ghost4;
-	uchar ghost5;
-	uchar ghost6;
+	uchar ghost2;
 	int fork[3];
 #ifdef TRIX
 	/* room for 512 proc+chan ptrs, + safety margin */
@@ -397,7 +392,6 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
-/* hidden variable: */	uchar ghost2;
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
 #define TRANSITIONS	"pan.t"
@@ -406,7 +400,7 @@ typedef struct TRIX_v6 {
 #define _endstate1	2 /* np_ */
 
 #define _start1	0 /* np_ */
-#define _start0	61
+#define _start0	22
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
@@ -766,7 +760,7 @@ void qsend(int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	19
+#define NTRANS	11
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

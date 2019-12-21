@@ -477,16 +477,16 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln0 [] = {
-	  0,   7,   8,   9,  12,  13,  14,  15, 
-	 18,  19,   6,  21,   6,  21,   0, };
+	  0,   6,   7,   8,  11,  12,  13,  14, 
+	 17,  18,  19,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_1.pml", 1, 13 },
-	{ "-", 14, 15 }
+	{ "1_1.pml", 1, 10 },
+	{ "-", 11, 12 }
 };
 uchar reached0 [] = {
-	  0,   1,   0,   0,   0,   0,   0,   1, 
-	  0,   1,   0,   1,   1,   0,   0, };
+	  0,   0,   0,   0,   0,   0,   0,   1, 
+	  0,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached1[3];  /* np_ */
 uchar *loopstate1;  /* np_ */
@@ -789,11 +789,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* P */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 10;
+		((P0 *)pptr(h))->_p = 1;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[10]=1;
+		reached0[1]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -14021,7 +14021,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[13];
+Trans *t_id_lkup[10];
 
 
 #ifdef BFS_PAR

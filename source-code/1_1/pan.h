@@ -132,17 +132,17 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates0	14	/* P */
+#define _nstates0	11	/* P */
 #define minseq0	0
-#define maxseq0	12
-#define _endstate0	13
+#define maxseq0	9
+#define _endstate0	10
 
 extern short src_ln0[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	11
-#define _T2	12
+#define _T5	10
+#define _T2	11
 #define WS		8 /* word size in bytes */
 #define SYNC	0
 #define ASYNC	0
@@ -400,7 +400,7 @@ typedef struct TRIX_v6 {
 #define _endstate1	2 /* np_ */
 
 #define _start1	0 /* np_ */
-#define _start0	10
+#define _start0	1
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
@@ -760,7 +760,7 @@ void qsend(int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	13
+#define NTRANS	12
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

@@ -1,0 +1,9 @@
+never mutual_exclusion {    /* !(([] ((ghostDL1<=1))) && ([] ((ghostDL2<=1)))) */
+T0_init:
+	do
+	:: atomic { (((! (((ghostDL1<=1)))) || (! (((ghostDL2<=1)))))) -> assert(!(((! (((ghostDL1<=1)))) || (! (((ghostDL2<=1))))))) }
+	:: (1) -> goto T0_init
+	od;
+accept_all:
+	skip
+}

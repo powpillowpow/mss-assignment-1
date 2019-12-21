@@ -477,30 +477,20 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln0 [] = {
-	  0,  49,   9,  10,  11,  12,  13,  14, 
-	 15,  16,  17,  18,  19,  20,  21,  22, 
-	  8,  24,   7,  29,  30,  31,  32,  33, 
-	 34,  35,  36,  37,  38,  39,  40,  41, 
-	 42,  28,  44,  27,  50,  57,  58,  61, 
-	 62,  63,  64,  65,  66,  67,  68,  59, 
-	 71,  72,  75,  76,  77,  78,  79,  80, 
-	 81,  82,  73,  56,  85,  47,  86,  47, 
-	 86,   0, };
+	  0,  28,   7,   8,   9,  10,  11,  12, 
+	  6,  17,  18,  19,  20,  21,  22,  16, 
+	 29,  35,  38,  39,  40,  36,  26,  43, 
+	 26,  43,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_5.pml", 1, 64 },
-	{ "-", 65, 66 }
+	{ "1_5.pml", 1, 25 },
+	{ "-", 26, 27 }
 };
 uchar reached0 [] = {
 	  0,   1,   1,   0,   0,   0,   0,   0, 
-	  0,   1,   0,   0,   0,   0,   0,   0, 
-	  1,   1,   1,   1,   0,   0,   0,   0, 
-	  0,   0,   1,   0,   0,   0,   0,   0, 
-	  0,   1,   1,   0,   0,   1,   0,   1, 
-	  0,   0,   0,   0,   0,   0,   0,   0, 
-	  1,   0,   1,   0,   0,   0,   0,   0, 
-	  0,   0,   0,   0,   1,   0,   1,   1, 
-	  0,   0, };
+	  1,   1,   0,   0,   0,   0,   0,   0, 
+	  0,   0,   1,   0,   0,   0,   0,   1, 
+	  1,   0,   0, };
 uchar *loopstate0;
 uchar reached1[3];  /* np_ */
 uchar *loopstate1;  /* np_ */
@@ -803,11 +793,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 61;
+		((P0 *)pptr(h))->_p = 22;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[61]=1;
+		reached0[22]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12293,14 +12283,8 @@ do_reach(void)
 void
 iniglobals(int calling_pid)
 {
-		now.as6 = 0;
-		now.as7 = 0;
 		now.ghost = 0;
-		ghost2 = 0;
-		now.ghost3 = 0;
-		now.ghost4 = 0;
-		now.ghost5 = 0;
-		now.ghost6 = 0;
+		now.ghost2 = 0;
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
@@ -12308,13 +12292,8 @@ iniglobals(int calling_pid)
 		}
 	}
 #ifdef VAR_RANGES
-		logval("as6", now.as6);
-		logval("as7", now.as7);
 		logval("ghost", now.ghost);
-		logval("ghost3", now.ghost3);
-		logval("ghost4", now.ghost4);
-		logval("ghost5", now.ghost5);
-		logval("ghost6", now.ghost6);
+		logval("ghost2", now.ghost2);
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
@@ -14027,12 +14006,7 @@ c_globals(void)
 		}
 	}
 	printf("	byte   ghost:	%d\n", now.ghost);
-	printf("	byte   ghost3:	%d\n", now.ghost3);
-	printf("	byte   ghost4:	%d\n", now.ghost4);
-	printf("	byte   ghost5:	%d\n", now.ghost5);
-	printf("	byte   ghost6:	%d\n", now.ghost6);
-	printf("	bit    as6:	%d\n", now.as6);
-	printf("	bit    as7:	%d\n", now.as7);
+	printf("	byte   ghost2:	%d\n", now.ghost2);
 }
 void
 c_locals(int pid, int tp)
@@ -14053,7 +14027,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[64];
+Trans *t_id_lkup[25];
 
 
 #ifdef BFS_PAR

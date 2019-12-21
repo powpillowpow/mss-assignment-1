@@ -1,0 +1,7 @@
+never deadlock_freedom {    /* !(<> ((! ((ghostDL1==0))) || (<> ((ghostDL1==1))))) */
+accept_init:
+T0_init:
+	do
+	:: (! ((! ((ghostDL1==0)))) && ! (((ghostDL1==1)))) -> goto T0_init
+	od;
+}

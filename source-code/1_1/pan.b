@@ -37,12 +37,5 @@
 		now.flag[ Index(((P0 *)_this)->_pid, 2) ] = trpt->bup.oval;
 		;
 		goto R999;
-
-	case 10: // STATE 13
-		;
-		p_restor(II);
-		;
-		;
-		goto R999;
 	}
 

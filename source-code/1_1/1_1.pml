@@ -3,8 +3,7 @@ byte ghost;
 active [2] proctype P() 
 {
    non_cs:
-        do
-        :: flag[_pid] = 1;
+        flag[_pid] = 1;
         turn = 1 - _pid;
         (!flag[1 - _pid] || turn == _pid);
 
@@ -17,5 +16,4 @@ active [2] proctype P()
     exit:
         flag[_pid] = 0; 
         goto non_cs;
-    od
 }

@@ -26,11 +26,8 @@ settable(void)
 
 	/* proctype 0: P */
 
-	trans[0] = (Trans **) emalloc(14*sizeof(Trans *));
+	trans[0] = (Trans **) emalloc(11*sizeof(Trans *));
 
-	trans[0][11]	= settr(10,0,10,1,0,".(goto)", 0, 2, 0);
-	T = trans[0][10] = settr(9,0,0,0,0,"DO", 0, 2, 0);
-	    T->nxt	= settr(9,0,1,0,0,"DO", 0, 2, 0);
 	trans[0][1]	= settr(0,0,2,3,3,"flag[_pid] = 1", 1, 2, 0);
 	trans[0][2]	= settr(1,0,3,4,4,"turn = (1-_pid)", 1, 2, 0);
 	trans[0][3]	= settr(2,0,4,5,0,"((!(flag[(1-_pid)])||(turn==_pid)))", 1, 2, 0);
@@ -38,10 +35,9 @@ settable(void)
 	trans[0][5]	= settr(4,0,6,7,0,"assert((ghost<=1))", 1, 2, 0);
 	trans[0][6]	= settr(5,0,7,8,8,"ghost = (ghost-1)", 1, 2, 0);
 	trans[0][7]	= settr(6,0,8,1,0,"(1)", 0, 2, 0);
-	trans[0][8]	= settr(7,0,10,9,9,"flag[_pid] = 0", 1, 2, 0);
-	trans[0][9]	= settr(8,0,10,1,0,"goto non_cs", 0, 2, 0);
-	trans[0][12]	= settr(11,0,13,1,0,"break", 0, 2, 0);
-	trans[0][13]	= settr(12,0,0,10,10,"-end-", 0, 3500, 0);
+	trans[0][8]	= settr(7,0,1,9,9,"flag[_pid] = 0", 1, 2, 0);
+	trans[0][9]	= settr(8,0,1,1,0,"goto non_cs", 0, 2, 0);
+	trans[0][10]	= settr(0,0,0,0,0,"-end-",0,0,0);
 	/* np_ demon: */
 	trans[_NP_] = (Trans **) emalloc(3*sizeof(Trans *));
 	T = trans[_NP_][0] = settr(9997,0,1,_T5,0,"(np_)", 1,2,0);
