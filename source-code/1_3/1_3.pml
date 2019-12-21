@@ -11,7 +11,6 @@ active [2] proctype P()
         (!flag[1 - _pid] || turn == _pid);
     cs:
         ghost++;
-        assert(ghost<=1);
         ghost--;
         skip;
 
