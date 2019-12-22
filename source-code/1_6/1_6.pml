@@ -1,4 +1,4 @@
-#define N 3
+#define N 5
 int fork[N] = -1;
 
 inline philosopherGetsLeftFork(philosopherNumber)
