@@ -140,14 +140,14 @@ typedef struct S_F_MAP {
 } S_F_MAP;
 
 #define _nstates1	14	/* absence_starvation */
-#define minseq1	15
-#define maxseq1	27
+#define minseq1	16
+#define maxseq1	28
 #define _endstate1	13
 
-#define _nstates0	16	/* Phil */
+#define _nstates0	17	/* Phil */
 #define minseq0	0
-#define maxseq0	14
-#define _endstate0	15
+#define maxseq0	15
+#define _endstate0	16
 
 extern short src_ln1[];
 extern short src_ln0[];
@@ -174,33 +174,33 @@ extern S_F_MAP src_file0[];
 typedef struct P1 { /* absence_starvation */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 5; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
 } P1;
-#define Air1	(sizeof(P1) - 2)
+#define Air1	(sizeof(P1) - 3)
 
 #define PPhil	((P0 *)_this)
 typedef struct P0 { /* Phil */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 5; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
 } P0;
-#define Air0	(sizeof(P0) - 2)
+#define Air0	(sizeof(P0) - 3)
 
 typedef struct P2 { /* np_ */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 5; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
 } P2;
-#define Air2	(sizeof(P2) - 2)
+#define Air2	(sizeof(P2) - 3)
 
 #define Pclaim	P0
 #ifndef NCLAIMS
@@ -394,6 +394,7 @@ typedef struct State {
 #endif
 	uchar critical;
 	int fork[3];
+	int currentPh;
 #ifdef TRIX
 	/* room for 512 proc+chan ptrs, + safety margin */
 	char *_ids_[MAXPROC+MAXQ+4];
@@ -415,7 +416,6 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
-/* hidden variable: */	uchar orderPh;
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
 #define TRANSITIONS	"pan.t"
@@ -425,7 +425,7 @@ typedef struct TRIX_v6 {
 
 #define _start2	0 /* np_ */
 #define _start1	5
-#define _start0	12
+#define _start0	13
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else

@@ -16,7 +16,7 @@ active [N] proctype Phil() {
         atomic
         {
             critical++;
-            //assert(critical==1)
+            assert(critical==1)
             fork[_pid] = _pid;
             fork[(_pid+1)%N] = _pid;
 

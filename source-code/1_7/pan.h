@@ -132,17 +132,17 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates0	17	/* Phil */
+#define _nstates0	24	/* Phil */
 #define minseq0	0
-#define maxseq0	15
-#define _endstate0	16
+#define maxseq0	22
+#define _endstate0	23
 
 extern short src_ln0[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	11
-#define _T2	12
+#define _T5	10
+#define _T2	11
 #define WS		8 /* word size in bytes */
 #define SYNC	0
 #define ASYNC	0
@@ -368,6 +368,7 @@ typedef struct State {
 		unsigned short _event;
 	#endif
 #endif
+	uchar critical;
 	int fork[5];
 #ifdef TRIX
 	/* room for 512 proc+chan ptrs, + safety margin */
@@ -390,7 +391,6 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
-/* hidden variable: */	uchar critical;
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
 #define TRANSITIONS	"pan.t"
@@ -399,7 +399,7 @@ typedef struct TRIX_v6 {
 #define _endstate1	2 /* np_ */
 
 #define _start1	0 /* np_ */
-#define _start0	13
+#define _start0	20
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
@@ -759,7 +759,7 @@ void qsend(int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	13
+#define NTRANS	12
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

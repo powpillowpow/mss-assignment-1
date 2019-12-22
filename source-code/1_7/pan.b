@@ -8,33 +8,37 @@
 		;
 		;
 		
-	case 5: // STATE 6
+	case 5: // STATE 7
 		;
-		critical = trpt->bup.ovals[3];
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.ovals[2];
+		now.critical = trpt->bup.ovals[2];
 		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = trpt->bup.ovals[1];
-		critical = trpt->bup.ovals[0];
+		now.critical = trpt->bup.ovals[0];
 		;
-		ungrab_ints(trpt->bup.ovals, 4);
+		ungrab_ints(trpt->bup.ovals, 3);
 		goto R999;
-;
+
+	case 6: // STATE 15
 		;
+		now.critical = trpt->bup.ovals[2];
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.ovals[1];
+		now.critical = trpt->bup.ovals[0];
 		;
-		;
-		
-	case 8: // STATE 10
+		ungrab_ints(trpt->bup.ovals, 3);
+		goto R999;
+
+	case 7: // STATE 17
 		;
 		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 9: // STATE 11
+	case 8: // STATE 18
 		;
 		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 10: // STATE 16
+	case 9: // STATE 23
 		;
 		p_restor(II);
 		;

@@ -14,11 +14,10 @@ active [N] proctype Phil() {
         fork[_pid] = _pid;
         fork[(_pid+1)%N] = _pid;
         printf("philosopher %d eats with fork%d and fork%d...\n", _pid, _pid, (_pid+1)%N);
-
-    exit:
         fork[_pid] = -1;
         fork[(_pid+1)%N] = -1;
 
+    exit:
         goto non_cs;
     od
 }

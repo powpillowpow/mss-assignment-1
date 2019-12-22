@@ -477,18 +477,20 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln0 [] = {
-	  0,  11,  13,  18,  20,  21,  23,  16, 
-	 28,  29,  30,  31,  33,   9,  35,   9, 
-	 35,   0, };
+	  0,  11,  13,  18,  19,  20,  21,  22, 
+	 16,  27,  28,  29,  30,  32,  33,  34, 
+	 25,  39,  40,  42,   9,  44,   9,  44, 
+	  0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_7.pml", 1, 16 },
-	{ "-", 17, 18 }
+	{ "1_7.pml", 1, 23 },
+	{ "-", 24, 25 }
 };
 uchar reached0 [] = {
 	  0,   1,   0,   1,   0,   0,   0,   0, 
-	  0,   0,   0,   0,   1,   0,   1,   1, 
-	  0,   0, };
+	  0,   1,   0,   0,   0,   0,   0,   0, 
+	  0,   0,   0,   1,   0,   1,   1,   0, 
+	  0, };
 uchar *loopstate0;
 uchar reached1[3];  /* np_ */
 uchar *loopstate1;  /* np_ */
@@ -791,11 +793,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 13;
+		((P0 *)pptr(h))->_p = 20;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[13]=1;
+		reached0[20]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12281,7 +12283,7 @@ do_reach(void)
 void
 iniglobals(int calling_pid)
 {
-		critical = 0;
+		now.critical = 0;
 	{	int l_in;
 		for (l_in = 0; l_in < 5; l_in++)
 		{
@@ -12289,6 +12291,7 @@ iniglobals(int calling_pid)
 		}
 	}
 #ifdef VAR_RANGES
+		logval("critical", now.critical);
 	{	int l_in;
 		for (l_in = 0; l_in < 5; l_in++)
 		{
@@ -14004,6 +14007,7 @@ c_globals(void)
 			printf("	int    fork[%d]:	%d\n", l_in, now.fork[l_in]);
 		}
 	}
+	printf("	byte   critical:	%d\n", now.critical);
 }
 void
 c_locals(int pid, int tp)
@@ -14024,7 +14028,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[16];
+Trans *t_id_lkup[23];
 
 
 #ifdef BFS_PAR

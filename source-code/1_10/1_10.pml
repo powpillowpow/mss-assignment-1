@@ -8,10 +8,6 @@ ltl absence_starvation { []((critical==0) -> <>(critical==1)) }
 
 
 active [N] proctype Phil() {
-    if
-    ::
-    ::
-    fi
     non_cs:
     do
     ::
@@ -29,7 +25,6 @@ active [N] proctype Phil() {
             printf("philosopher %d eats with fork%d and fork%d...\n", _pid, _pid, (_pid+1)%N);
             critical--;
         }
-
 
     exit:
         fork[_pid] = -1;

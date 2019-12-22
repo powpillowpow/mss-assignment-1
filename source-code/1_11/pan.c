@@ -495,18 +495,18 @@ uchar reached1 [] = {
 uchar *loopstate1;
 
 short src_ln0 [] = {
-	  0,  15,  17,  22,  23,  24,  26,  27, 
-	 20,  32,  33,  35,  13,  37,  13,  37, 
-	  0, };
+	  0,  14,  16,  21,  22,  23,  25,  26, 
+	 27,  19,  31,  32,  34,  12,  36,  12, 
+	 36,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_11.pml", 1, 15 },
-	{ "-", 16, 17 }
+	{ "1_11.pml", 1, 16 },
+	{ "-", 17, 18 }
 };
 uchar reached0 [] = {
 	  0,   1,   0,   1,   0,   0,   0,   0, 
-	  0,   0,   0,   1,   0,   1,   1,   0, 
-	  0, };
+	  0,   0,   0,   0,   1,   0,   1,   1, 
+	  0,   0, };
 uchar *loopstate0;
 uchar reached2[3];  /* np_ */
 uchar *loopstate2;  /* np_ */
@@ -830,11 +830,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 12;
+		((P0 *)pptr(h))->_p = 13;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[12]=1;
+		reached0[13]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12335,13 +12335,13 @@ void
 iniglobals(int calling_pid)
 {
 		now.critical = 0;
-		orderPh = 0;
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
 			now.fork[l_in] =  -(1);
 		}
 	}
+		now.currentPh =  -(1);
 #ifdef VAR_RANGES
 		logval("critical", now.critical);
 	{	int l_in;
@@ -12350,6 +12350,7 @@ iniglobals(int calling_pid)
 			logval("fork[l_in]", now.fork[l_in]);
 		}
 	}
+		logval("currentPh", now.currentPh);
 #endif
 }
 
@@ -14057,6 +14058,7 @@ c_globals(void)
 		}
 	}
 	printf("	byte   critical:	%d\n", now.critical);
+	printf("	int    currentPh:	%d\n", now.currentPh);
 }
 void
 c_locals(int pid, int tp)
@@ -14080,7 +14082,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[28];
+Trans *t_id_lkup[29];
 
 
 #ifdef BFS_PAR
