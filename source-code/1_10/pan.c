@@ -481,38 +481,32 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln1 [] = {
-	  0,   4,   4,   4,   3,   6,   3,   7, 
-	  8,   0, };
+	  0,   3,   3,   4,   4,   2,   6,   2, 
+	  8,   8,   7,  10,   7,  10,   0, };
 S_F_MAP src_file1 [] = {
 	{ "-", 0, 0 },
-	{ "_spin_nvr.tmp", 1, 8 },
-	{ "-", 9, 10 }
+	{ "_spin_nvr.tmp", 1, 13 },
+	{ "-", 14, 15 }
 };
 short *src_claim;
 uchar reached1 [] = {
-	  0,   1,   0,   1,   0,   1,   1,   1, 
-	  0,   0, };
+	  0,   1,   1,   1,   1,   0,   1,   1, 
+	  1,   1,   0,   1,   1,   0,   0, };
 uchar *loopstate1;
 
 short src_ln0 [] = {
-	  0,  43,  11,  12,  13,  14,  15,  16, 
-	 17,  18,  19,  20,  21,  22,  10,  24, 
-	  9,  29,  30,  31,  32,  33,  34,  35, 
-	 36,  28,  38,  27,  44,  51,  52,  55, 
-	 56,  57,  53,  60,  61,  64,  65,  66, 
-	 62,  50,  69,  41,  70,  41,  70,   0, };
+	  0,  16,  18,  23,  24,  25,  27,  30, 
+	 30,  31,  31,  29,  33,  33,  21,  38, 
+	 39,  41,  14,  43,  14,  43,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_10.pml", 1, 46 },
-	{ "-", 47, 48 }
+	{ "1_10.pml", 1, 21 },
+	{ "-", 22, 23 }
 };
 uchar reached0 [] = {
-	  0,   1,   1,   0,   0,   0,   0,   0, 
-	  1,   0,   0,   0,   0,   0,   1,   1, 
-	  1,   1,   0,   0,   0,   1,   0,   0, 
-	  0,   1,   1,   0,   0,   1,   0,   1, 
-	  0,   0,   0,   1,   0,   1,   0,   0, 
-	  0,   0,   1,   0,   1,   1,   0,   0, };
+	  0,   1,   0,   1,   0,   0,   0,   1, 
+	  0,   1,   0,   0,   1,   0,   0,   0, 
+	  0,   1,   0,   1,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached2[3];  /* np_ */
 uchar *loopstate2;  /* np_ */
@@ -537,7 +531,7 @@ struct {
 short Air[] = {  (short) Air0, (short) Air1, (short) Air2 };
 char *procname[] = {
    "Phil",
-   "starvation",
+   "absence_starvation",
    ":np_:",
 	0
 };
@@ -546,7 +540,7 @@ enum btypes { NONE=0, N_CLAIM=1, I_PROC=2, A_PROC=3, P_PROC=4, E_TRACE=5, N_TRAC
 
 int Btypes[] = {
    3,	/* Phil */
-   1,	/* starvation */
+   1,	/* absence_starvation */
    0	/* :np_: */
 };
 
@@ -818,13 +812,13 @@ addproc(int calling_pid, int priority, int n)
 		reached2[0] = 1;
 		accpstate[2][1] = 1;
 		break;
-	case 1:	/* starvation */
+	case 1:	/* absence_starvation */
 		((P1 *)pptr(h))->_t = 1;
-		((P1 *)pptr(h))->_p = 4;
+		((P1 *)pptr(h))->_p = 5;
 #ifdef HAS_PRIORITY
 		((P1 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached1[4]=1;
+		reached1[5]=1;
 		src_claim = src_ln1;
 		/* params: */
 		/* locals: */
@@ -836,11 +830,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 43;
+		((P0 *)pptr(h))->_p = 18;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[43]=1;
+		reached0[18]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -991,8 +985,7 @@ run(void)
 	if ((Maxbody % WS) != 0)
 		Maxbody += WS - (Maxbody % WS);
 
-	accpstate[1][7] = 1;
-	accpstate[1][4] = 1;
+	accpstate[1][10] = 1;
 	retrans(0, _nstates0, _start0, src_ln0, reached0, loopstate0);
 	retrans(1, _nstates1, _start1, src_ln1, reached1, loopstate1);
 	if (state_tables)
@@ -12341,23 +12334,24 @@ do_reach(void)
 void
 iniglobals(int calling_pid)
 {
-		now.ghostLF = 0;
-		now.ghostLF2 = 0;
+		now.critical = 0;
+		orderPh = 0;
 	{	int l_in;
-		for (l_in = 0; l_in < 5; l_in++)
+		for (l_in = 0; l_in < 3; l_in++)
 		{
 			now.fork[l_in] =  -(1);
 		}
 	}
+		now.currentPh = 0;
 #ifdef VAR_RANGES
-		logval("ghostLF", now.ghostLF);
-		logval("ghostLF2", now.ghostLF2);
+		logval("critical", now.critical);
 	{	int l_in;
-		for (l_in = 0; l_in < 5; l_in++)
+		for (l_in = 0; l_in < 3; l_in++)
 		{
 			logval("fork[l_in]", now.fork[l_in]);
 		}
 	}
+		logval("currentPh", now.currentPh);
 #endif
 }
 
@@ -12940,11 +12934,7 @@ active_procs(void)
 		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
-		Addproc(0, 1);
-		Addproc(0, 1);
 	} else {
-		Addproc(0, 1);
-		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
@@ -14063,13 +14053,13 @@ c_globals(void)
 {	/* int i; */
 	printf("global vars:\n");
 	{	int l_in;
-		for (l_in = 0; l_in < 5; l_in++)
+		for (l_in = 0; l_in < 3; l_in++)
 		{
 			printf("	int    fork[%d]:	%d\n", l_in, now.fork[l_in]);
 		}
 	}
-	printf("	byte   ghostLF:	%d\n", now.ghostLF);
-	printf("	byte   ghostLF2:	%d\n", now.ghostLF2);
+	printf("	byte   critical:	%d\n", now.critical);
+	printf("	int    currentPh:	%d\n", now.currentPh);
 }
 void
 c_locals(int pid, int tp)
@@ -14079,7 +14069,7 @@ c_locals(int pid, int tp)
 		/* none */
 		break;
 	case 0:
-		/* none */
+		printf("local vars proc %d (Phil):\n", pid);
 		break;
 	}
 }
@@ -14093,7 +14083,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[54];
+Trans *t_id_lkup[34];
 
 
 #ifdef BFS_PAR

@@ -20,91 +20,66 @@
 		_m = 3; goto P999;
 
 		 /* PROC Phil */
-	case 3: // STATE 1 - 1_6.pml:22 - [printf('philosopher %d is thinking...\\n',_pid)] (0:0:0 - 1)
+	case 3: // STATE 1 - 1_6.pml:9 - [printf('philosopher %d is thinking...\\n',_pid)] (0:0:0 - 1)
 		IfNotBlocked
 		reached[0][1] = 1;
 		Printf("philosopher %d is thinking...\n", ((int)((P0 *)_this)->_pid));
 		_m = 3; goto P999; /* 0 */
-	case 4: // STATE 2 - 1_6.pml:7 - [(((fork[_pid]==-(1))&&(fork[((_pid+1)%3)]==-(1))))] (9:0:1 - 1)
+	case 4: // STATE 2 - 1_6.pml:10 - [((fork[_pid]==-(1)))] (0:0:0 - 1)
 		IfNotBlocked
 		reached[0][2] = 1;
-		if (!(((now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]== -(1))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]== -(1)))))
-			continue;
-		/* merge: printf('philosopher %d gets fork%d...\\n',_pid,_pid)(9, 3, 9) */
-		reached[0][3] = 1;
-		Printf("philosopher %d gets fork%d...\n", ((int)((P0 *)_this)->_pid), ((int)((P0 *)_this)->_pid));
-		/* merge: fork[_pid] = _pid(9, 4, 9) */
-		reached[0][4] = 1;
-		(trpt+1)->bup.oval = now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ];
-		now.fork[ Index(((P0 *)_this)->_pid, 3) ] = ((int)((P0 *)_this)->_pid);
-#ifdef VAR_RANGES
-		logval("fork[_pid]", now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]);
-#endif
-		;
-		_m = 3; goto P999; /* 2 */
-	case 5: // STATE 6 - 1_6.pml:14 - [(((fork[((_pid+1)%3)]==-(1))&&(fork[_pid]==_pid)))] (11:0:1 - 1)
-		IfNotBlocked
-		reached[0][6] = 1;
-		if (!(((now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]== -(1))&&(now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]==((int)((P0 *)_this)->_pid)))))
-			continue;
-		/* merge: printf('philosopher %d gets fork%d...\\n',_pid,(_pid+1))(11, 7, 11) */
-		reached[0][7] = 1;
-		Printf("philosopher %d gets fork%d...\n", ((int)((P0 *)_this)->_pid), (((int)((P0 *)_this)->_pid)+1));
-		/* merge: fork[((_pid+1)%3)] = _pid(11, 8, 11) */
-		reached[0][8] = 1;
-		(trpt+1)->bup.oval = now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ];
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] = ((int)((P0 *)_this)->_pid);
-#ifdef VAR_RANGES
-		logval("fork[((_pid+1)%3)]", now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]);
-#endif
-		;
-		_m = 3; goto P999; /* 2 */
-	case 6: // STATE 11 - 1_6.pml:29 - [(((((fork[_pid]!=-(1))&&(fork[((_pid+1)%3)]!=-(1)))&&(fork[_pid]==_pid))&&(fork[((_pid+1)%3)]==_pid)))] (0:0:0 - 1)
-		IfNotBlocked
-		reached[0][11] = 1;
-		if (!(((((now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]!= -(1))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]!= -(1)))&&(now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]==((int)((P0 *)_this)->_pid)))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]==((int)((P0 *)_this)->_pid)))))
+		if (!((now.fork[ Index(((int)((P0 *)_this)->_pid), 5) ]== -(1))))
 			continue;
 		_m = 3; goto P999; /* 0 */
-	case 7: // STATE 12 - 1_6.pml:32 - [a = ((fork[_pid]==_pid)&&(fork[((_pid+1)%3)]==_pid))] (0:18:3 - 1)
+	case 5: // STATE 3 - 1_6.pml:13 - [fork[_pid] = _pid] (0:0:1 - 1)
 		IfNotBlocked
-		reached[0][12] = 1;
-		(trpt+1)->bup.ovals = grab_ints(3);
-		(trpt+1)->bup.ovals[0] = ((int)now.a);
-		now.a = ((now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]==((int)((P0 *)_this)->_pid))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]==((int)((P0 *)_this)->_pid)));
+		reached[0][3] = 1;
+		(trpt+1)->bup.oval = now.fork[ Index(((int)((P0 *)_this)->_pid), 5) ];
+		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = ((int)((P0 *)_this)->_pid);
 #ifdef VAR_RANGES
-		logval("a", ((int)now.a));
+		logval("fork[_pid]", now.fork[ Index(((int)((P0 *)_this)->_pid), 5) ]);
 #endif
 		;
-		/* merge: assert(a)(18, 13, 18) */
-		reached[0][13] = 1;
-		spin_assert(((int)now.a), "a", II, tt, t);
-		/* merge: printf('philosopher %d eats with fork%d and fork%d...\\n',_pid,_pid,(_pid+1))(18, 14, 18) */
-		reached[0][14] = 1;
-		Printf("philosopher %d eats with fork%d and fork%d...\n", ((int)((P0 *)_this)->_pid), ((int)((P0 *)_this)->_pid), (((int)((P0 *)_this)->_pid)+1));
-		/* merge: fork[_pid] = -(1)(18, 15, 18) */
-		reached[0][15] = 1;
-		(trpt+1)->bup.ovals[1] = now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ];
-		now.fork[ Index(((P0 *)_this)->_pid, 3) ] =  -(1);
-#ifdef VAR_RANGES
-		logval("fork[_pid]", now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]);
-#endif
-		;
-		/* merge: fork[((_pid+1)%3)] = -(1)(18, 16, 18) */
-		reached[0][16] = 1;
-		(trpt+1)->bup.ovals[2] = now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ];
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] =  -(1);
-#ifdef VAR_RANGES
-		logval("fork[((_pid+1)%3)]", now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]);
-#endif
-		;
-		/* merge: .(goto)(0, 19, 18) */
-		reached[0][19] = 1;
-		;
-		_m = 3; goto P999; /* 5 */
-	case 8: // STATE 21 - 1_6.pml:39 - [-end-] (0:0:0 - 1)
+		_m = 3; goto P999; /* 0 */
+	case 6: // STATE 4 - 1_6.pml:14 - [fork[((_pid+1)%5)] = _pid] (0:0:1 - 1)
 		IfNotBlocked
-		reached[0][21] = 1;
-		if (!delproc(1, II)) continue;
+		reached[0][4] = 1;
+		(trpt+1)->bup.oval = now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%5), 5) ];
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = ((int)((P0 *)_this)->_pid);
+#ifdef VAR_RANGES
+		logval("fork[((_pid+1)%5)]", now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%5), 5) ]);
+#endif
+		;
+		_m = 3; goto P999; /* 0 */
+	case 7: // STATE 5 - 1_6.pml:17 - [assert(((fork[_pid]==_pid)&&(fork[((_pid+1)%5)]==_pid)))] (0:0:0 - 1)
+		IfNotBlocked
+		reached[0][5] = 1;
+		spin_assert(((now.fork[ Index(((int)((P0 *)_this)->_pid), 5) ]==((int)((P0 *)_this)->_pid))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%5), 5) ]==((int)((P0 *)_this)->_pid))), "((fork[_pid]==_pid)&&(fork[((_pid+1)%5)]==_pid))", II, tt, t);
+		_m = 3; goto P999; /* 0 */
+	case 8: // STATE 6 - 1_6.pml:18 - [printf('philosopher %d eats with fork%d and fork%d...\\n',_pid,_pid,((_pid+1)%5))] (0:0:0 - 1)
+		IfNotBlocked
+		reached[0][6] = 1;
+		Printf("philosopher %d eats with fork%d and fork%d...\n", ((int)((P0 *)_this)->_pid), ((int)((P0 *)_this)->_pid), ((((int)((P0 *)_this)->_pid)+1)%5));
+		_m = 3; goto P999; /* 0 */
+	case 9: // STATE 7 - 1_6.pml:19 - [fork[_pid] = -(1)] (0:0:1 - 1)
+		IfNotBlocked
+		reached[0][7] = 1;
+		(trpt+1)->bup.oval = now.fork[ Index(((int)((P0 *)_this)->_pid), 5) ];
+		now.fork[ Index(((P0 *)_this)->_pid, 5) ] =  -(1);
+#ifdef VAR_RANGES
+		logval("fork[_pid]", now.fork[ Index(((int)((P0 *)_this)->_pid), 5) ]);
+#endif
+		;
+		_m = 3; goto P999; /* 0 */
+	case 10: // STATE 8 - 1_6.pml:20 - [fork[((_pid+1)%5)] = -(1)] (0:0:1 - 1)
+		IfNotBlocked
+		reached[0][8] = 1;
+		(trpt+1)->bup.oval = now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%5), 5) ];
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] =  -(1);
+#ifdef VAR_RANGES
+		logval("fork[((_pid+1)%5)]", now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%5), 5) ]);
+#endif
+		;
 		_m = 3; goto P999; /* 0 */
 	case  _T5:	/* np_ */
 		if (!((!(trpt->o_pm&4) && !(trpt->tau&128))))

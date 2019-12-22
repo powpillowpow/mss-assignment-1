@@ -139,15 +139,15 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates1	9	/* starvation */
-#define minseq1	46
-#define maxseq1	53
-#define _endstate1	8
+#define _nstates1	14	/* absence_starvation */
+#define minseq1	21
+#define maxseq1	33
+#define _endstate1	13
 
-#define _nstates0	47	/* Phil */
+#define _nstates0	22	/* Phil */
 #define minseq0	0
-#define maxseq0	45
-#define _endstate0	46
+#define maxseq0	20
+#define _endstate0	21
 
 extern short src_ln1[];
 extern short src_ln0[];
@@ -155,8 +155,8 @@ extern S_F_MAP src_file1[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	19
-#define _T2	20
+#define _T5	15
+#define _T2	16
 #define WS		8 /* word size in bytes */
 #define SYNC	0
 #define ASYNC	0
@@ -171,10 +171,10 @@ extern S_F_MAP src_file0[];
 	#endif
 #endif
 
-typedef struct P1 { /* starvation */
+typedef struct P1 { /* absence_starvation */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 7; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
@@ -185,7 +185,7 @@ typedef struct P1 { /* starvation */
 typedef struct P0 { /* Phil */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 7; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
@@ -195,7 +195,7 @@ typedef struct P0 { /* Phil */
 typedef struct P2 { /* np_ */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 7; /* state    */
+	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
@@ -392,9 +392,9 @@ typedef struct State {
 		unsigned short _event;
 	#endif
 #endif
-	uchar ghostLF;
-	uchar ghostLF2;
-	int fork[5];
+	uchar critical;
+	int fork[3];
+	int currentPh;
 #ifdef TRIX
 	/* room for 512 proc+chan ptrs, + safety margin */
 	char *_ids_[MAXPROC+MAXQ+4];
@@ -416,6 +416,7 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
+/* hidden variable: */	uchar orderPh;
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
 #define TRANSITIONS	"pan.t"
@@ -424,12 +425,12 @@ typedef struct TRIX_v6 {
 #define _endstate2	2 /* np_ */
 
 #define _start2	0 /* np_ */
-#define _start1	4
-#define _start0	43
+#define _start1	5
+#define _start0	18
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
-	#define ACCEPT_LAB	2 /* user-defined accept labels */
+	#define ACCEPT_LAB	1 /* user-defined accept labels */
 #endif
 #ifdef MEMCNT
 	#ifdef MEMLIM
@@ -785,7 +786,7 @@ void qsend(int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	21
+#define NTRANS	17
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

@@ -99,28 +99,28 @@
 		_m = 3; goto P999; /* 0 */
 
 		 /* PROC Phil */
-	case 6: // STATE 1 - 1_10.pml:16 - [printf('philosopher %d is thinking...\\n',_pid)] (0:0:0 - 1)
+	case 6: // STATE 1 - 1_11.pml:15 - [printf('philosopher %d is thinking...\\n',_pid)] (0:0:0 - 1)
 		IfNotBlocked
 		reached[0][1] = 1;
 		Printf("philosopher %d is thinking...\n", ((int)((P0 *)_this)->_pid));
 		_m = 3; goto P999; /* 0 */
-	case 7: // STATE 2 - 1_10.pml:18 - [((((fork[_pid]==-(1))&&(fork[((_pid+1)%3)]==-(1)))&&(_pid==currentPh)))] (0:0:0 - 1)
+	case 7: // STATE 2 - 1_11.pml:17 - [(((fork[_pid]==-(1))&&(fork[((_pid+1)%3)]==-(1))))] (0:0:0 - 1)
 		IfNotBlocked
 		reached[0][2] = 1;
-		if (!((((now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]== -(1))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]== -(1)))&&(((int)((P0 *)_this)->_pid)==now.currentPh))))
+		if (!(((now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]== -(1))&&(now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]== -(1)))))
 			continue;
 		_m = 3; goto P999; /* 0 */
-	case 8: // STATE 3 - 1_10.pml:23 - [critical = (critical+1)] (0:11:3 - 1)
+	case 8: // STATE 3 - 1_11.pml:22 - [critical = (critical+1)] (0:9:4 - 1)
 		IfNotBlocked
 		reached[0][3] = 1;
-		(trpt+1)->bup.ovals = grab_ints(3);
+		(trpt+1)->bup.ovals = grab_ints(4);
 		(trpt+1)->bup.ovals[0] = ((int)now.critical);
 		now.critical = (((int)now.critical)+1);
 #ifdef VAR_RANGES
 		logval("critical", ((int)now.critical));
 #endif
 		;
-		/* merge: fork[_pid] = _pid(11, 4, 11) */
+		/* merge: fork[_pid] = _pid(9, 4, 9) */
 		reached[0][4] = 1;
 		(trpt+1)->bup.ovals[1] = now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ];
 		now.fork[ Index(((P0 *)_this)->_pid, 3) ] = ((int)((P0 *)_this)->_pid);
@@ -128,7 +128,7 @@
 		logval("fork[_pid]", now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ]);
 #endif
 		;
-		/* merge: fork[((_pid+1)%3)] = _pid(11, 5, 11) */
+		/* merge: fork[((_pid+1)%3)] = _pid(9, 5, 9) */
 		reached[0][5] = 1;
 		(trpt+1)->bup.ovals[2] = now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ];
 		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] = ((int)((P0 *)_this)->_pid);
@@ -136,74 +136,21 @@
 		logval("fork[((_pid+1)%3)]", now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ]);
 #endif
 		;
-		/* merge: printf('philosopher %d eats with fork%d and fork%d...\\n',_pid,_pid,((_pid+1)%3))(11, 6, 11) */
+		/* merge: printf('philosopher %d eats with fork%d and fork%d...\\n',_pid,_pid,((_pid+1)%3))(9, 6, 9) */
 		reached[0][6] = 1;
 		Printf("philosopher %d eats with fork%d and fork%d...\n", ((int)((P0 *)_this)->_pid), ((int)((P0 *)_this)->_pid), ((((int)((P0 *)_this)->_pid)+1)%3));
-		_m = 3; goto P999; /* 3 */
-	case 9: // STATE 7 - 1_10.pml:30 - [((currentPh<(3-1)))] (15:0:2 - 1)
-		IfNotBlocked
+		/* merge: critical = (critical-1)(9, 7, 9) */
 		reached[0][7] = 1;
-		if (!((now.currentPh<(3-1))))
-			continue;
-		/* merge: currentPh = (currentPh+1)(15, 8, 15) */
-		reached[0][8] = 1;
-		(trpt+1)->bup.ovals = grab_ints(2);
-		(trpt+1)->bup.ovals[0] = now.currentPh;
-		now.currentPh = (now.currentPh+1);
-#ifdef VAR_RANGES
-		logval("currentPh", now.currentPh);
-#endif
-		;
-		/* merge: .(goto)(15, 12, 15) */
-		reached[0][12] = 1;
-		;
-		/* merge: critical = (critical-1)(15, 13, 15) */
-		reached[0][13] = 1;
-		(trpt+1)->bup.ovals[1] = ((int)now.critical);
+		(trpt+1)->bup.ovals[3] = ((int)now.critical);
 		now.critical = (((int)now.critical)-1);
 #ifdef VAR_RANGES
 		logval("critical", ((int)now.critical));
 #endif
 		;
-		_m = 3; goto P999; /* 3 */
-	case 10: // STATE 12 - 1_10.pml:33 - [.(goto)] (0:15:1 - 2)
+		_m = 3; goto P999; /* 4 */
+	case 9: // STATE 9 - 1_11.pml:32 - [fork[_pid] = -(1)] (0:0:1 - 1)
 		IfNotBlocked
-		reached[0][12] = 1;
-		;
-		/* merge: critical = (critical-1)(15, 13, 15) */
-		reached[0][13] = 1;
-		(trpt+1)->bup.oval = ((int)now.critical);
-		now.critical = (((int)now.critical)-1);
-#ifdef VAR_RANGES
-		logval("critical", ((int)now.critical));
-#endif
-		;
-		_m = 3; goto P999; /* 1 */
-	case 11: // STATE 10 - 1_10.pml:31 - [currentPh = 0] (0:15:2 - 1)
-		IfNotBlocked
-		reached[0][10] = 1;
-		(trpt+1)->bup.ovals = grab_ints(2);
-		(trpt+1)->bup.ovals[0] = now.currentPh;
-		now.currentPh = 0;
-#ifdef VAR_RANGES
-		logval("currentPh", now.currentPh);
-#endif
-		;
-		/* merge: .(goto)(15, 12, 15) */
-		reached[0][12] = 1;
-		;
-		/* merge: critical = (critical-1)(15, 13, 15) */
-		reached[0][13] = 1;
-		(trpt+1)->bup.ovals[1] = ((int)now.critical);
-		now.critical = (((int)now.critical)-1);
-#ifdef VAR_RANGES
-		logval("critical", ((int)now.critical));
-#endif
-		;
-		_m = 3; goto P999; /* 2 */
-	case 12: // STATE 15 - 1_10.pml:38 - [fork[_pid] = -(1)] (0:0:1 - 1)
-		IfNotBlocked
-		reached[0][15] = 1;
+		reached[0][9] = 1;
 		(trpt+1)->bup.oval = now.fork[ Index(((int)((P0 *)_this)->_pid), 3) ];
 		now.fork[ Index(((P0 *)_this)->_pid, 3) ] =  -(1);
 #ifdef VAR_RANGES
@@ -211,9 +158,9 @@
 #endif
 		;
 		_m = 3; goto P999; /* 0 */
-	case 13: // STATE 16 - 1_10.pml:39 - [fork[((_pid+1)%3)] = -(1)] (0:0:1 - 1)
+	case 10: // STATE 10 - 1_11.pml:33 - [fork[((_pid+1)%3)] = -(1)] (0:0:1 - 1)
 		IfNotBlocked
-		reached[0][16] = 1;
+		reached[0][10] = 1;
 		(trpt+1)->bup.oval = now.fork[ Index(((((int)((P0 *)_this)->_pid)+1)%3), 3) ];
 		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] =  -(1);
 #ifdef VAR_RANGES
@@ -221,9 +168,9 @@
 #endif
 		;
 		_m = 3; goto P999; /* 0 */
-	case 14: // STATE 21 - 1_10.pml:43 - [-end-] (0:0:0 - 1)
+	case 11: // STATE 15 - 1_11.pml:37 - [-end-] (0:0:0 - 1)
 		IfNotBlocked
-		reached[0][21] = 1;
+		reached[0][15] = 1;
 		if (!delproc(1, II)) continue;
 		_m = 3; goto P999; /* 0 */
 	case  _T5:	/* np_ */

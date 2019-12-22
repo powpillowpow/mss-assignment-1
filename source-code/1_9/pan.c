@@ -68,10 +68,6 @@ globinit(void)
 #endif
 	*proc_offset, *q_offset;
 void
-locinit1(int h)
-{
-}
-void
 locinit0(int h)
 {
 }
@@ -480,45 +476,27 @@ int _;	/* predefined write-only variable */
 	#define Index(x, y)	x
 #endif
 
-short src_ln1 [] = {
-	  0,   4,   4,   3,   6,   3,   6,   0, };
-S_F_MAP src_file1 [] = {
-	{ "-", 0, 0 },
-	{ "_spin_nvr.tmp", 1, 6 },
-	{ "-", 7, 8 }
-};
-short *src_claim;
-uchar reached1 [] = {
-	  0,   1,   1,   0,   1,   1,   0,   0, };
-uchar *loopstate1;
-
 short src_ln0 [] = {
-	  0,  21,  23,  10,  11,  12,  13,  14, 
-	 15,  16,   9,  26,  32,  35,  36,  37, 
-	 39,  39,  40,  40,  38,  42,  33,  43, 
-	 44,   0, };
+	  0,   9,  10,  15,  16,  13,  21,  22, 
+	 19,  26,  27,  28,  30,  31,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_9.pml", 1, 24 },
-	{ "-", 25, 26 }
+	{ "1_9.pml", 1, 13 },
+	{ "-", 14, 15 }
 };
 uchar reached0 [] = {
-	  0,   0,   0,   1,   0,   0,   0,   0, 
-	  0,   0,   1,   0,   0,   1,   0,   0, 
-	  1,   0,   1,   0,   0,   1,   0,   1, 
-	  0,   0, };
+	  0,   0,   0,   1,   0,   0,   1,   0, 
+	  0,   0,   0,   0,   1,   0,   0, };
 uchar *loopstate0;
-uchar reached2[3];  /* np_ */
-uchar *loopstate2;  /* np_ */
+uchar reached1[3];  /* np_ */
+uchar *loopstate1;  /* np_ */
 struct {
 	int tp; short *src;
 } src_all[] = {
-	{ 1, &src_ln1[0] },
 	{ 0, &src_ln0[0] },
 	{ 0, (short *) 0 }
 };
 S_F_MAP *flref[] = {
-	src_file1,
 	src_file0 
 };
 
@@ -528,10 +506,9 @@ struct {
 	{ (char *) 0, "" }
 };
 
-short Air[] = {  (short) Air0, (short) Air1, (short) Air2 };
+short Air[] = {  (short) Air0, (short) Air1 };
 char *procname[] = {
    "Phil",
-   "deadlock_freedom",
    ":np_:",
 	0
 };
@@ -540,20 +517,19 @@ enum btypes { NONE=0, N_CLAIM=1, I_PROC=2, A_PROC=3, P_PROC=4, E_TRACE=5, N_TRAC
 
 int Btypes[] = {
    3,	/* Phil */
-   1,	/* deadlock_freedom */
    0	/* :np_: */
 };
 
 uchar spin_c_typ[NCLAIMS]; /* claim-types */
-uchar *accpstate[3];
-uchar *progstate[3];
-uchar *loopstate[3];
-uchar *reached[3];
-uchar *stopstate[3];
-uchar *visstate[3];
-short *mapstate[3];
+uchar *accpstate[2];
+uchar *progstate[2];
+uchar *loopstate[2];
+uchar *reached[2];
+uchar *stopstate[2];
+uchar *visstate[2];
+short *mapstate[2];
 #ifdef HAS_CODE
-	int NrStates[3];
+	int NrStates[2];
 #endif
 #ifdef TRIX
 int what_p_size(int);
@@ -710,7 +686,6 @@ addproc(int calling_pid, int priority, int n)
 	switch (n) {
 	case 0: j = sizeof(P0); break;
 	case 1: j = sizeof(P1); break;
-	case 2: j = sizeof(P2); break;
 	default: Uerror("bad proc - addproc");
 	}
 	#ifdef BFS_PAR
@@ -803,30 +778,14 @@ addproc(int calling_pid, int priority, int n)
 	{	((P0 *)_this)->_pid = h;
 	}
 	switch (n) {
-	case 2:	/* np_ */
-		((P2 *)pptr(h))->_t = 2;
-		((P2 *)pptr(h))->_p = 0;
-#ifdef HAS_PRIORITY
-		((P2 *)pptr(h))->_priority = priority;
-#endif
-		reached2[0] = 1;
-		accpstate[2][1] = 1;
-		break;
-	case 1:	/* deadlock_freedom */
+	case 1:	/* np_ */
 		((P1 *)pptr(h))->_t = 1;
-		((P1 *)pptr(h))->_p = 3;
+		((P1 *)pptr(h))->_p = 0;
 #ifdef HAS_PRIORITY
-		((P1 *)pptr(h))->_priority = priority; /* was: 1 */
+		((P1 *)pptr(h))->_priority = priority;
 #endif
-		reached1[3]=1;
-		src_claim = src_ln1;
-		/* params: */
-		/* locals: */
-#ifdef VAR_RANGES
-#endif
-#ifdef HAS_CODE
-		locinit1(h);
-#endif
+		reached1[0] = 1;
+		accpstate[1][1] = 1;
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
@@ -870,7 +829,6 @@ col_p(int i, char *z)
 	switch (ptr->_t) {
 	case 0: j = sizeof(P0); break;
 	case 1: j = sizeof(P1); break;
-	case 2: j = sizeof(P2); break;
 	default: Uerror("bad proctype - collapse");
 	}
 	if (z) x = z; else x = scratch;
@@ -950,44 +908,32 @@ run(void)
 	settable();
 	Maxbody = max(Maxbody, ((int) sizeof(P0)));
 	Maxbody = max(Maxbody, ((int) sizeof(P1)));
-	Maxbody = max(Maxbody, ((int) sizeof(P2)));
 	reached[0] = reached0;
 	reached[1] = reached1;
-	reached[2] = reached2;
 	accpstate[0] = (uchar *) emalloc(_nstates0);
 	accpstate[1] = (uchar *) emalloc(_nstates1);
-	accpstate[2] = (uchar *) emalloc(_nstates2);
 	progstate[0] = (uchar *) emalloc(_nstates0);
 	progstate[1] = (uchar *) emalloc(_nstates1);
-	progstate[2] = (uchar *) emalloc(_nstates2);
 	loopstate0 = loopstate[0] = (uchar *) emalloc(_nstates0);
 	loopstate1 = loopstate[1] = (uchar *) emalloc(_nstates1);
-	loopstate2 = loopstate[2] = (uchar *) emalloc(_nstates2);
 	stopstate[0] = (uchar *) emalloc(_nstates0);
 	stopstate[1] = (uchar *) emalloc(_nstates1);
-	stopstate[2] = (uchar *) emalloc(_nstates2);
 	visstate[0] = (uchar *) emalloc(_nstates0);
 	visstate[1] = (uchar *) emalloc(_nstates1);
-	visstate[2] = (uchar *) emalloc(_nstates2);
 	mapstate[0] = (short *) emalloc(_nstates0 * sizeof(short));
 	mapstate[1] = (short *) emalloc(_nstates1 * sizeof(short));
-	mapstate[2] = (short *) emalloc(_nstates2 * sizeof(short));
 	stopstate[0][_endstate0] = 1;
 	stopstate[1][_endstate1] = 1;
-	stopstate[2][_endstate2] = 1;
 #ifdef HAS_CODE
 	NrStates[0] = _nstates0;
 	NrStates[1] = _nstates1;
-	NrStates[2] = _nstates2;
 #endif
 
 	Maxbody = max(Maxbody, sizeof(State)-VECTORSZ);
 	if ((Maxbody % WS) != 0)
 		Maxbody += WS - (Maxbody % WS);
 
-	accpstate[1][3] = 1;
 	retrans(0, _nstates0, _start0, src_ln0, reached0, loopstate0);
-	retrans(1, _nstates1, _start1, src_ln1, reached1, loopstate1);
 	if (state_tables)
 	{ if (dodot) exit(0);
 	  printf("\nTransition Type: ");
@@ -12328,14 +12274,13 @@ void
 do_reach(void)
 {
 	r_ck(reached0, _nstates0, 0, src_ln0, src_file0);
-	r_ck(reached1, _nstates1, 1, src_ln1, src_file1);
 }
 
 void
 iniglobals(int calling_pid)
 {
-		now.ghostDL1 = 0;
-		now.currentP = 0;
+		ghostDL1 = 0;
+		ghostDL2 = 0;
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
@@ -12343,8 +12288,6 @@ iniglobals(int calling_pid)
 		}
 	}
 #ifdef VAR_RANGES
-		logval("ghostDL1", now.ghostDL1);
-		logval("currentP", now.currentP);
 	{	int l_in;
 		for (l_in = 0; l_in < 3; l_in++)
 		{
@@ -12431,7 +12374,6 @@ what_p_size(int t)
 	switch (t) {
 	case 0: j = sizeof(P0); break;
 	case 1: j = sizeof(P1); break;
-	case 2: j = sizeof(P2); break;
 	default: Uerror("bad proctype");
 	}
 	return j;
@@ -14057,16 +13999,11 @@ c_globals(void)
 			printf("	int    fork[%d]:	%d\n", l_in, now.fork[l_in]);
 		}
 	}
-	printf("	byte   ghostDL1:	%d\n", now.ghostDL1);
-	printf("	byte   currentP:	%d\n", now.currentP);
 }
 void
 c_locals(int pid, int tp)
 {	/* int i; */
 	switch(tp) {
-	case 1:
-		/* none */
-		break;
 	case 0:
 		printf("local vars proc %d (Phil):\n", pid);
 		break;
@@ -14082,7 +14019,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[30];
+Trans *t_id_lkup[13];
 
 
 #ifdef BFS_PAR

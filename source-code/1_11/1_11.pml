@@ -3,21 +3,19 @@
 int fork[N] = -1;
 byte critical;
 byte orderPh;
+int currentPh;
 
 ltl absence_starvation { []((critical==0) -> <>(critical==1)) }
 
 
 active [N] proctype Phil() {
-    if
-    ::
-    ::
-    fi
+
     non_cs:
     do
     ::
         printf("philosopher %d is thinking...\n", _pid);
     
-        (fork[_pid] == -1 && fork[(_pid+1)%N] == -1)
+        (fork[_pid] == -1 && fork[(_pid+1)%N] == -1 && _pid==currentPh)
 
     cs:
         atomic
@@ -27,6 +25,11 @@ active [N] proctype Phil() {
             fork[(_pid+1)%N] = _pid;
 
             printf("philosopher %d eats with fork%d and fork%d...\n", _pid, _pid, (_pid+1)%N);
+            
+            if
+            ::currentPh < N-1 -> currentPh++;
+            ::else -> currentPh = 0;
+            fi
             critical--;
         }
 

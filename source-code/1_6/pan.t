@@ -26,37 +26,18 @@ settable(void)
 
 	/* proctype 0: Phil */
 
-	trans[0] = (Trans **) emalloc(22*sizeof(Trans *));
+	trans[0] = (Trans **) emalloc(11*sizeof(Trans *));
 
-	trans[0][19]	= settr(18,0,18,1,0,".(goto)", 0, 2, 0);
-	T = trans[0][18] = settr(17,0,0,0,0,"DO", 0, 2, 0);
-	    T->nxt	= settr(17,0,1,0,0,"DO", 0, 2, 0);
-	trans[0][1]	= settr(0,0,10,3,0,"printf('philosopher %d is thinking...\\n',_pid)", 0, 2, 0);
-	T = trans[ 0][10] = settr(9,2,0,0,0,"ATOMIC", 1, 2, 0);
-	T->nxt	= settr(9,2,5,0,0,"ATOMIC", 1, 2, 0);
-	T = trans[ 0][5] = settr(4,0,0,0,0,"sub-sequence", 1, 2, 0);
-	T->nxt	= settr(4,0,2,0,0,"sub-sequence", 1, 2, 0);
-	trans[0][2]	= settr(1,2,9,4,4,"(((fork[_pid]==-(1))&&(fork[((_pid+1)%3)]==-(1))))", 1, 2, 0); /* m: 3 -> 9,0 */
-	reached0[3] = 1;
-	trans[0][3]	= settr(0,0,0,0,0,"printf('philosopher %d gets fork%d...\\n',_pid,_pid)",0,0,0);
-	trans[0][4]	= settr(0,0,0,0,0,"fork[_pid] = _pid",0,0,0);
-	T = trans[ 0][9] = settr(8,0,0,0,0,"sub-sequence", 1, 2, 0);
-	T->nxt	= settr(8,0,6,0,0,"sub-sequence", 1, 2, 0);
-	trans[0][6]	= settr(5,4,11,5,5,"(((fork[((_pid+1)%3)]==-(1))&&(fork[_pid]==_pid)))", 1, 2, 0); /* m: 7 -> 11,0 */
-	reached0[7] = 1;
-	trans[0][7]	= settr(0,0,0,0,0,"printf('philosopher %d gets fork%d...\\n',_pid,(_pid+1))",0,0,0);
-	trans[0][8]	= settr(0,0,0,0,0,"fork[((_pid+1)%3)] = _pid",0,0,0);
-	trans[0][11]	= settr(10,0,17,6,0,"(((((fork[_pid]!=-(1))&&(fork[((_pid+1)%3)]!=-(1)))&&(fork[_pid]==_pid))&&(fork[((_pid+1)%3)]==_pid)))", 1, 2, 0);
-	T = trans[ 0][17] = settr(16,2,0,0,0,"ATOMIC", 1, 2, 0);
-	T->nxt	= settr(16,2,12,0,0,"ATOMIC", 1, 2, 0);
-	trans[0][12]	= settr(11,0,18,7,7,"a = ((fork[_pid]==_pid)&&(fork[((_pid+1)%3)]==_pid))", 1, 2, 0); /* m: 13 -> 0,18 */
-	reached0[13] = 1;
-	trans[0][13]	= settr(0,0,0,0,0,"assert(a)",0,0,0);
-	trans[0][14]	= settr(0,0,0,0,0,"printf('philosopher %d eats with fork%d and fork%d...\\n',_pid,_pid,(_pid+1))",0,0,0);
-	trans[0][15]	= settr(0,0,0,0,0,"fork[_pid] = -(1)",0,0,0);
-	trans[0][16]	= settr(0,0,0,0,0,"fork[((_pid+1)%3)] = -(1)",0,0,0);
-	trans[0][20]	= settr(19,0,21,1,0,"break", 0, 2, 0);
-	trans[0][21]	= settr(20,0,0,8,8,"-end-", 0, 3500, 0);
+	trans[0][1]	= settr(0,0,2,3,0,"printf('philosopher %d is thinking...\\n',_pid)", 0, 2, 0);
+	trans[0][2]	= settr(1,0,3,4,0,"((fork[_pid]==-(1)))", 1, 2, 0);
+	trans[0][3]	= settr(2,0,4,5,5,"fork[_pid] = _pid", 1, 2, 0);
+	trans[0][4]	= settr(3,0,5,6,6,"fork[((_pid+1)%5)] = _pid", 1, 2, 0);
+	trans[0][5]	= settr(4,0,6,7,0,"assert(((fork[_pid]==_pid)&&(fork[((_pid+1)%5)]==_pid)))", 1, 2, 0);
+	trans[0][6]	= settr(5,0,7,8,0,"printf('philosopher %d eats with fork%d and fork%d...\\n',_pid,_pid,((_pid+1)%5))", 0, 2, 0);
+	trans[0][7]	= settr(6,0,8,9,9,"fork[_pid] = -(1)", 1, 2, 0);
+	trans[0][8]	= settr(7,0,1,10,10,"fork[((_pid+1)%5)] = -(1)", 1, 2, 0);
+	trans[0][9]	= settr(8,0,1,1,0,"goto non_cs", 0, 2, 0);
+	trans[0][10]	= settr(0,0,0,0,0,"-end-",0,0,0);
 	/* np_ demon: */
 	trans[_NP_] = (Trans **) emalloc(3*sizeof(Trans *));
 	T = trans[_NP_][0] = settr(9997,0,1,_T5,0,"(np_)", 1,2,0);

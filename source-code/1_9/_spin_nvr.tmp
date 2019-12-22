@@ -1,7 +1,16 @@
-never deadlock_freedom {    /* !(<> ((! ((ghostDL1==0))) || (<> ((ghostDL1==1))))) */
-accept_init:
+never deadlock_freedom {    /* !(([] ((! ((ghostDL1==0))) || (<> ((ghostDL1==1))))) && ([] ((! ((ghostDL2==0))) || (<> ((ghostDL2==1)))))) */
 T0_init:
 	do
-	:: (! ((! ((ghostDL1==0)))) && ! (((ghostDL1==1)))) -> goto T0_init
+	:: (! ((! ((ghostDL2==0)))) && ! (((ghostDL2==1)))) -> goto accept_S5
+	:: (! ((! ((ghostDL1==0)))) && ! (((ghostDL1==1)))) -> goto accept_S10
+	:: (1) -> goto T0_init
+	od;
+accept_S5:
+	do
+	:: (! (((ghostDL2==1)))) -> goto accept_S5
+	od;
+accept_S10:
+	do
+	:: (! (((ghostDL1==1)))) -> goto accept_S10
 	od;
 }

@@ -102,7 +102,6 @@
 #ifndef NFAIR
 	#define NFAIR	2	/* must be >= 2 */
 #endif
-#define HAS_LTL	1
 #define HAS_CODE	1
 #if defined(RANDSTORE) && !defined(RANDSTOR)
 	#define RANDSTOR	RANDSTORE
@@ -121,16 +120,10 @@
 #endif
 #ifdef NP
 	#define HAS_NP	2
-	#define VERI	2	/* np_ */
+	#define VERI	1	/* np_ */
 #endif
 #if defined(NOCLAIM) && defined(NP)
 	#undef NOCLAIM
-#endif
-#ifndef NOCLAIM
-	#define NCLAIMS	1
-	#ifndef NP
-		#define VERI	1
-	#endif
 #endif
 
 typedef struct S_F_MAP {
@@ -139,19 +132,12 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates1	11	/* mutual_exclusion */
-#define minseq1	23
-#define maxseq1	32
-#define _endstate1	10
-
-#define _nstates0	24	/* Phil */
+#define _nstates0	17	/* Phil */
 #define minseq0	0
-#define maxseq0	22
-#define _endstate0	23
+#define maxseq0	15
+#define _endstate0	16
 
-extern short src_ln1[];
 extern short src_ln0[];
-extern S_F_MAP src_file1[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
@@ -171,36 +157,26 @@ extern S_F_MAP src_file0[];
 	#endif
 #endif
 
-typedef struct P1 { /* mutual_exclusion */
-	unsigned _pid : 8;  /* 0..255 */
-	unsigned _t   : 3; /* proctype */
-	unsigned _p   : 6; /* state    */
-#ifdef HAS_PRIORITY
-	unsigned _priority : 8; /* 0..255 */
-#endif
-} P1;
-#define Air1	(sizeof(P1) - 3)
-
 #define PPhil	((P0 *)_this)
 typedef struct P0 { /* Phil */
 	unsigned _pid : 8;  /* 0..255 */
-	unsigned _t   : 3; /* proctype */
+	unsigned _t   : 2; /* proctype */
 	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
 } P0;
-#define Air0	(sizeof(P0) - 3)
+#define Air0	(sizeof(P0) - 2)
 
-typedef struct P2 { /* np_ */
+typedef struct P1 { /* np_ */
 	unsigned _pid : 8;  /* 0..255 */
-	unsigned _t   : 3; /* proctype */
+	unsigned _t   : 2; /* proctype */
 	unsigned _p   : 6; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
-} P2;
-#define Air2	(sizeof(P2) - 3)
+} P1;
+#define Air1	(sizeof(P1) - 2)
 
 #define Pclaim	P0
 #ifndef NCLAIMS
@@ -392,9 +368,7 @@ typedef struct State {
 		unsigned short _event;
 	#endif
 #endif
-	uchar ghostDL1;
-	uchar ghostDL2;
-	int fork[3];
+	int fork[5];
 #ifdef TRIX
 	/* room for 512 proc+chan ptrs, + safety margin */
 	char *_ids_[MAXPROC+MAXQ+4];
@@ -416,20 +390,20 @@ typedef struct TRIX_v6 {
 #endif
 
 #define HAS_TRACK	0
+/* hidden variable: */	uchar critical;
 #define FORWARD_MOVES	"pan.m"
 #define BACKWARD_MOVES	"pan.b"
 #define TRANSITIONS	"pan.t"
-#define _NP_	2
-#define _nstates2	3 /* np_ */
-#define _endstate2	2 /* np_ */
+#define _NP_	1
+#define _nstates1	3 /* np_ */
+#define _endstate1	2 /* np_ */
 
-#define _start2	0 /* np_ */
-#define _start1	6
-#define _start0	20
+#define _start1	0 /* np_ */
+#define _start0	13
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
-	#define ACCEPT_LAB	1 /* user-defined accept labels */
+	#define ACCEPT_LAB	0 /* user-defined accept labels */
 #endif
 #ifdef MEMCNT
 	#ifdef MEMLIM

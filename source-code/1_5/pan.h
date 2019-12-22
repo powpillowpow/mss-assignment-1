@@ -132,17 +132,17 @@ typedef struct S_F_MAP {
 	int upto;
 } S_F_MAP;
 
-#define _nstates0	26	/* Phil */
+#define _nstates0	13	/* Phil */
 #define minseq0	0
-#define maxseq0	24
-#define _endstate0	25
+#define maxseq0	11
+#define _endstate0	12
 
 extern short src_ln0[];
 extern S_F_MAP src_file0[];
 
 #define T_ID	unsigned char
-#define _T5	9
-#define _T2	10
+#define _T5	13
+#define _T2	14
 #define WS		8 /* word size in bytes */
 #define SYNC	0
 #define ASYNC	0
@@ -161,7 +161,7 @@ extern S_F_MAP src_file0[];
 typedef struct P0 { /* Phil */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 2; /* proctype */
-	unsigned _p   : 6; /* state    */
+	unsigned _p   : 5; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
@@ -171,7 +171,7 @@ typedef struct P0 { /* Phil */
 typedef struct P1 { /* np_ */
 	unsigned _pid : 8;  /* 0..255 */
 	unsigned _t   : 2; /* proctype */
-	unsigned _p   : 6; /* state    */
+	unsigned _p   : 5; /* state    */
 #ifdef HAS_PRIORITY
 	unsigned _priority : 8; /* 0..255 */
 #endif
@@ -369,8 +369,7 @@ typedef struct State {
 	#endif
 #endif
 	uchar ghost;
-	uchar ghost2;
-	int fork[3];
+	int fork[5];
 #ifdef TRIX
 	/* room for 512 proc+chan ptrs, + safety margin */
 	char *_ids_[MAXPROC+MAXQ+4];
@@ -400,7 +399,7 @@ typedef struct TRIX_v6 {
 #define _endstate1	2 /* np_ */
 
 #define _start1	0 /* np_ */
-#define _start0	22
+#define _start0	1
 #ifdef NP
 	#define ACCEPT_LAB	1 /* at least 1 in np_ */
 #else
@@ -760,7 +759,7 @@ void qsend(int, int, int);
 #define GLOBAL	7
 #define BAD	8
 #define ALPHA_F	9
-#define NTRANS	11
+#define NTRANS	15
 #if defined(BFS_PAR) || NCORE>1
 	void e_critical(int);
 	void x_critical(int);

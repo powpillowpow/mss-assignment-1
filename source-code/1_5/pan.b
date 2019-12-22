@@ -5,39 +5,46 @@
 		 /* PROC Phil */
 ;
 		;
+		;
+		;
 		
-	case 4: // STATE 7
+	case 5: // STATE 3
 		;
-		now.ghost = trpt->bup.ovals[2];
-		now.fork[ Index(((P0 *)_this)->_pid, 3) ] = trpt->bup.ovals[1];
-		now.ghost = trpt->bup.ovals[0];
+		now.ghost = trpt->bup.oval;
 		;
-		ungrab_ints(trpt->bup.ovals, 3);
-		goto R999;
-
-	case 5: // STATE 14
-		;
-		now.ghost2 = trpt->bup.ovals[2];
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] = trpt->bup.ovals[1];
-		now.ghost2 = trpt->bup.ovals[0];
-		;
-		ungrab_ints(trpt->bup.ovals, 3);
 		goto R999;
 ;
 		;
 		
-	case 7: // STATE 20
+	case 7: // STATE 5
 		;
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] = trpt->bup.ovals[1];
-		now.fork[ Index(((P0 *)_this)->_pid, 3) ] = trpt->bup.ovals[0];
+		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = trpt->bup.oval;
 		;
-		ungrab_ints(trpt->bup.ovals, 2);
 		goto R999;
 
-	case 8: // STATE 25
+	case 8: // STATE 6
 		;
-		p_restor(II);
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.oval;
 		;
+		goto R999;
+
+	case 9: // STATE 7
+		;
+		now.ghost = trpt->bup.oval;
+		;
+		goto R999;
+;
+		;
+		
+	case 11: // STATE 9
+		;
+		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = trpt->bup.oval;
+		;
+		goto R999;
+
+	case 12: // STATE 10
+		;
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.oval;
 		;
 		goto R999;
 	}

@@ -477,20 +477,16 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln0 [] = {
-	  0,  28,   7,   8,   9,  10,  11,  12, 
-	  6,  17,  18,  19,  20,  21,  22,  16, 
-	 29,  35,  38,  39,  40,  36,  26,  43, 
-	 26,  43,   0, };
+	  0,   9,  10,  13,  14,  15,  16,  17, 
+	 20,  21,  22,  24,  25,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_5.pml", 1, 25 },
-	{ "-", 26, 27 }
+	{ "1_5.pml", 1, 12 },
+	{ "-", 13, 14 }
 };
 uchar reached0 [] = {
-	  0,   1,   1,   0,   0,   0,   0,   0, 
-	  1,   1,   0,   0,   0,   0,   0,   0, 
-	  0,   0,   1,   0,   0,   0,   0,   1, 
-	  1,   0,   0, };
+	  0,   0,   0,   0,   0,   0,   0,   0, 
+	  0,   0,   0,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached1[3];  /* np_ */
 uchar *loopstate1;  /* np_ */
@@ -793,11 +789,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 22;
+		((P0 *)pptr(h))->_p = 1;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[22]=1;
+		reached0[1]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12284,18 +12280,16 @@ void
 iniglobals(int calling_pid)
 {
 		now.ghost = 0;
-		now.ghost2 = 0;
 	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
+		for (l_in = 0; l_in < 5; l_in++)
 		{
 			now.fork[l_in] =  -(1);
 		}
 	}
 #ifdef VAR_RANGES
 		logval("ghost", now.ghost);
-		logval("ghost2", now.ghost2);
 	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
+		for (l_in = 0; l_in < 5; l_in++)
 		{
 			logval("fork[l_in]", now.fork[l_in]);
 		}
@@ -12881,7 +12875,11 @@ active_procs(void)
 		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
+		Addproc(0, 1);
+		Addproc(0, 1);
 	} else {
+		Addproc(0, 1);
+		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
@@ -14000,20 +13998,19 @@ c_globals(void)
 {	/* int i; */
 	printf("global vars:\n");
 	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
+		for (l_in = 0; l_in < 5; l_in++)
 		{
 			printf("	int    fork[%d]:	%d\n", l_in, now.fork[l_in]);
 		}
 	}
 	printf("	byte   ghost:	%d\n", now.ghost);
-	printf("	byte   ghost2:	%d\n", now.ghost2);
 }
 void
 c_locals(int pid, int tp)
 {	/* int i; */
 	switch(tp) {
 	case 0:
-		/* none */
+		printf("local vars proc %d (Phil):\n", pid);
 		break;
 	}
 }
@@ -14027,7 +14024,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[25];
+Trans *t_id_lkup[12];
 
 
 #ifdef BFS_PAR

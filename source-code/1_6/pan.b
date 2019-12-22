@@ -5,34 +5,34 @@
 		 /* PROC Phil */
 ;
 		;
-		
-	case 4: // STATE 4
 		;
-		now.fork[ Index(((P0 *)_this)->_pid, 3) ] = trpt->bup.oval;
+		;
+		
+	case 5: // STATE 3
+		;
+		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = trpt->bup.oval;
 		;
 		goto R999;
 
-	case 5: // STATE 8
+	case 6: // STATE 4
 		;
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] = trpt->bup.oval;
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.oval;
 		;
 		goto R999;
 ;
 		;
+		;
+		;
 		
-	case 7: // STATE 16
+	case 9: // STATE 7
 		;
-		now.fork[ Index(((((P0 *)_this)->_pid+1)%3), 3) ] = trpt->bup.ovals[2];
-		now.fork[ Index(((P0 *)_this)->_pid, 3) ] = trpt->bup.ovals[1];
-		now.a = trpt->bup.ovals[0];
+		now.fork[ Index(((P0 *)_this)->_pid, 5) ] = trpt->bup.oval;
 		;
-		ungrab_ints(trpt->bup.ovals, 3);
 		goto R999;
 
-	case 8: // STATE 21
+	case 10: // STATE 8
 		;
-		p_restor(II);
-		;
+		now.fork[ Index(((((P0 *)_this)->_pid+1)%5), 5) ] = trpt->bup.oval;
 		;
 		goto R999;
 	}

@@ -477,18 +477,16 @@ int _;	/* predefined write-only variable */
 #endif
 
 short src_ln0 [] = {
-	  0,  22,   7,   8,   9,   6,  14,  15, 
-	 16,  13,  23,  29,  32,  33,  34,  35, 
-	 36,  30,  20,  39,  20,  39,   0, };
+	  0,   9,  10,  13,  14,  17,  18,  19, 
+	 20,  22,  23,   0, };
 S_F_MAP src_file0 [] = {
 	{ "-", 0, 0 },
-	{ "1_6.pml", 1, 21 },
-	{ "-", 22, 23 }
+	{ "1_6.pml", 1, 10 },
+	{ "-", 11, 12 }
 };
 uchar reached0 [] = {
-	  0,   1,   1,   0,   0,   1,   1,   0, 
-	  0,   0,   0,   0,   1,   0,   0,   0, 
-	  0,   0,   0,   1,   1,   0,   0, };
+	  0,   0,   0,   0,   0,   0,   0,   0, 
+	  0,   1,   0,   0, };
 uchar *loopstate0;
 uchar reached1[3];  /* np_ */
 uchar *loopstate1;  /* np_ */
@@ -791,11 +789,11 @@ addproc(int calling_pid, int priority, int n)
 		break;
 	case 0:	/* Phil */
 		((P0 *)pptr(h))->_t = 0;
-		((P0 *)pptr(h))->_p = 18;
+		((P0 *)pptr(h))->_p = 1;
 #ifdef HAS_PRIORITY
 		((P0 *)pptr(h))->_priority = priority; /* was: 1 */
 #endif
-		reached0[18]=1;
+		reached0[1]=1;
 		/* params: */
 		/* locals: */
 #ifdef VAR_RANGES
@@ -12281,17 +12279,17 @@ do_reach(void)
 void
 iniglobals(int calling_pid)
 {
-		now.a = 0;
+		ghostLeft = 0;
+		ghostRight = 0;
 	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
+		for (l_in = 0; l_in < 5; l_in++)
 		{
 			now.fork[l_in] =  -(1);
 		}
 	}
 #ifdef VAR_RANGES
-		logval("a", now.a);
 	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
+		for (l_in = 0; l_in < 5; l_in++)
 		{
 			logval("fork[l_in]", now.fork[l_in]);
 		}
@@ -12877,7 +12875,11 @@ active_procs(void)
 		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
+		Addproc(0, 1);
+		Addproc(0, 1);
 	} else {
+		Addproc(0, 1);
+		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
 		Addproc(0, 1);
@@ -13996,19 +13998,18 @@ c_globals(void)
 {	/* int i; */
 	printf("global vars:\n");
 	{	int l_in;
-		for (l_in = 0; l_in < 3; l_in++)
+		for (l_in = 0; l_in < 5; l_in++)
 		{
 			printf("	int    fork[%d]:	%d\n", l_in, now.fork[l_in]);
 		}
 	}
-	printf("	bit    a:	%d\n", now.a);
 }
 void
 c_locals(int pid, int tp)
 {	/* int i; */
 	switch(tp) {
 	case 0:
-		/* none */
+		printf("local vars proc %d (Phil):\n", pid);
 		break;
 	}
 }
@@ -14022,7 +14023,7 @@ c_chandump(int unused)
 {	unused++; /* avoid complaints */
 }
 
-Trans *t_id_lkup[21];
+Trans *t_id_lkup[10];
 
 
 #ifdef BFS_PAR
