@@ -4,8 +4,9 @@ byte ghostLeft, ghostRight;
 
 
 active [N] proctype Phil() {
-
     non_cs:
+    do
+    ::
     printf("philosopher %d is thinking...\n", _pid);
     (fork[_pid] == -1)
 
@@ -19,6 +20,7 @@ active [N] proctype Phil() {
     exit:
         fork[_pid] = -1;
         fork[(_pid+1)%N] = -1;
-
         goto non_cs;
+    }
+    od
 }
